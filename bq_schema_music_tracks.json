@@ -1,0 +1,11 @@
+[
+  {"name": "TRACK_ID", "type": "INT64", "mode": "REQUIRED", "description": "Unique track identifier"},
+  {"name": "TRACK_NAME", "type": "STRING", "mode": "REQUIRED", "description": "Name of the track"},
+  {"name": "ARTIST_NAME", "type": "STRING", "mode": "REQUIRED", "description": "Name of the artist"},
+  {"name": "GENRE", "type": "STRING", "mode": "REQUIRED", "description": "Music genre"},
+  {"name": "RELEASE_YEAR", "type": "INT64", "mode": "REQUIRED", "description": "Year the track was released"},
+  {"name": "DURATION_SECONDS", "type": "INT64", "mode": "REQUIRED", "description": "Track duration in seconds"},
+  {"name": "STREAMS", "type": "INT64", "mode": "REQUIRED", "description": "Number of streams"},
+  {"name": "ALBUM_NAME", "type": "STRING", "mode": "REQUIRED", "description": "Name of the album"},
+  {"name": "LABEL", "type": "STRING", "mode": "REQUIRED", "description": "Record label"}
+]
