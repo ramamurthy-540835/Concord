@@ -4,23 +4,22 @@ Extracts data from Snowflake, stages in GCS, loads into BigQuery.
 """
 import snowflake.connector
 import csv
-import getpass
 import subprocess
 import os
 import sys
 
 # --- Configuration ---
 SNOWFLAKE_CONFIG = {
-    "account": "A5701997473071-MPA05784",
-    "user": "RAMAMURTHY.VALAVANDAN@MASTECHDIGITAL.COM",
-    "role": "PUBLIC",
+    "account": "OWBTACS-NX61521",
+    "user": "DIRAC",
+    "role": "ACCOUNTADMIN",
 }
 
-SF_DATABASE = "MUSIC_DATA"
+SF_DATABASE = "MUSIC2"
 SF_SCHEMA = "PUBLIC"
 SF_TABLE = "MUSIC_TRACKS"
 
-GCS_BUCKET = "gs://ctoteam-data"
+GCS_BUCKET = "gs://music_revenue"
 GCS_PATH = f"{GCS_BUCKET}/snowflake-migration/music_tracks.csv"
 
 BQ_PROJECT = "ctoteam"
@@ -135,7 +134,10 @@ def step4_validate():
 
 
 def main():
-    password = getpass.getpass("Enter Snowflake password: ")
+    password = os.environ.get("SF_PASSWORD") or (sys.argv[1] if len(sys.argv) > 1 else None)
+    if not password:
+        print("Usage: SF_PASSWORD=<your_password> python3 migrate_snowflake_to_bigquery.py")
+        sys.exit(1)
 
     row_count = step1_extract_from_snowflake(password)
     step2_upload_to_gcs()

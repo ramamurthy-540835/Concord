@@ -1,17 +1,17 @@
 import snowflake.connector
 import csv
-import getpass
+import os
 import sys
 
 SNOWFLAKE_CONFIG = {
-    "account": "A5701997473071-MPA05784",
-    "user": "RAMAMURTHY.VALAVANDAN@MASTECHDIGITAL.COM",
-    "role": "PUBLIC",
-    "warehouse": None,  # Will be set after listing available warehouses
+    "account": "OWBTACS-NX61521",
+    "user": "DIRAC",
+    "role": "ACCOUNTADMIN",
+    "warehouse": None,
 }
 
 CSV_FILE = "/home/appadmin/GCP-Studio/Concord/music_tracks_clean.csv"
-DATABASE = "MUSIC_DATA"
+DATABASE = "MUSIC2"
 SCHEMA = "PUBLIC"
 TABLE = "MUSIC_TRACKS"
 
@@ -30,7 +30,11 @@ CREATE TABLE IF NOT EXISTS {DATABASE}.{SCHEMA}.{TABLE} (
 """
 
 def main():
-    password = getpass.getpass("Enter Snowflake password: ")
+    password = os.environ.get("SF_PASSWORD") or sys.argv[1] if len(sys.argv) > 1 else None
+    if not password:
+        print("Usage: SF_PASSWORD=<your_password> python3 load_to_snowflake.py")
+        print("   or: python3 load_to_snowflake.py <your_password>")
+        sys.exit(1)
 
     print("Connecting to Snowflake...")
     conn = snowflake.connector.connect(
